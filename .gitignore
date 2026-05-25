@@ -1,0 +1,31 @@
+# Personal data — never commit
+assets/photo.jpg
+assets/*.jpg
+assets/*.jpeg
+assets/*.png
+
+# Application database — personal data
+applications.db
+
+# Compiled PDFs — generated, not source
+outputs/*.pdf
+
+# LaTeX compilation artefacts
+outputs/*.aux
+outputs/*.log
+outputs/*.out
+outputs/*.fls
+outputs/*.fdb_latexmk
+outputs/*.synctex.gz
+outputs/*.toc
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
