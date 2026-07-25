@@ -54,6 +54,26 @@
 
 ---
 
+## Industries
+> The industries you have real experience in — shown in the sidebar. 3–5 entries.
+
+- [Industry 1 — e.g. Healthcare]
+- [Industry 2 — e.g. Financial Services]
+- [Industry 3 — e.g. Government & Public Sector]
+
+---
+
+## Sidebar Differentiator (optional)
+> An optional extra sidebar section that sets you apart — e.g. "Current AI Research & Practice",
+> "Publications", "Open Source". 3–4 short bullet lines. Delete this section if unused.
+
+**Section title:** [e.g. Current AI Research & Practice]
+- [Short line 1]
+- [Short line 2]
+- [Short line 3]
+
+---
+
 ## Career Timeline
 > **CANONICAL DATES — confirm these against your actual records (offer letters, LinkedIn, CV).**  
 > These dates are locked. Never use dates from any other source.

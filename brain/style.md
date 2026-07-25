@@ -3,194 +3,130 @@
 ---
 
 ## Font
-
 - **Primary font:** Helvetica (sans-serif) via `\usepackage[scaled=0.92]{helvet}` + `\renewcommand{\familydefault}{\sfdefault}`
 - **Why Helvetica:** Uniform stroke width — no hairline serifs — renders true black at all sizes. Serif fonts (Palatino, Charter, Computer Modern) have thin strokes that appear grey/light at 10pt.
-- **Body size:** 10pt base; `\small` (9pt) for all main column body text
-- **Name in sidebar:** `\fontsize{13}{16}` bold
-- **Section headers:** `\normalsize\bfseries` in crimson, uppercase via `\MakeUppercase`
+- **Body size:** 10pt base, `\small` (9pt) for main-column body text
+- **Name in sidebar:** `\fontsize{13}{16}` bold white, centred
+- **Section headers (main):** `\normalsize\bfseries` in deep azure, uppercase via `\MakeUppercase`
 
 ---
 
-## Colors
+## Colors (Azure palette — the gold standard)
 
-- **Body text (main column):** Pure black `RGB(0, 0, 0)` — NEVER use grey for body text
-- **Sidebar background:** Dark charcoal `RGB(28, 33, 43)`
-- **Sidebar body text:** Off-white `RGB(230, 230, 230)`
-- **Sidebar subtle text (name subtitle, dates, categories):** `RGB(175, 182, 196)`
-- **Sidebar links:** `RGB(120, 185, 245)`
-- **Section rules and bullet dots:** Crimson `RGB(165, 28, 48)`
-- **Meta info in main column (dates, company names, locations):** Dark grey `RGB(90, 90, 90)`
-- **Header separator rule:** Light grey `RGB(210, 210, 210)`
-- **Links (main column):** Deep blue `RGB(0, 50, 110)`
+| Role | Name | RGB |
+|---|---|---|
+| Primary accent | `azure` | 70, 128, 196 |
+| Main-column headers/rules/bullets | `azuredeep` | 40, 88, 148 |
+| Sidebar rules/dots (on navy) | `azurebright` | 120, 176, 240 |
+| Sidebar background | `sidecolor` | 22, 36, 60 |
+| Sidebar text | `sidetext` | 224, 230, 238 |
+| Sidebar muted text | `sidesubtle` | 158, 174, 196 |
+| Sidebar links | `sidelinkblue` | 130, 185, 245 |
+| Page background | `mainbg` | 248, 250, 252 |
+| Body text | `darkgray` | 16, 20, 26 |
+| Meta (dates, company, location) | `medgray` | 92, 98, 106 |
+| Light rule | `lightgray` | 205, 212, 222 |
+| Links (main) | `linkblue` | 40, 88, 148 |
 
-**CRITICAL bug to avoid:** Any `\color{X}` for decorative elements MUST be wrapped in braces `{\color{X}\rule{...}}` — an unbraced `\color{}` leaks and turns ALL subsequent body text that color.
-
-**Contrast rule:** Never use crimson text on the dark charcoal sidebar background. Crimson on charcoal is ~1.5:1 contrast ratio — completely illegible. Sidebar headings and labels must be white or `sidesubtle`.
+- The palette is swappable as a set, but keep the three-tier accent structure: primary / deep-on-light / bright-on-dark.
+- **Body text is near-black — never grey.**
+- **CRITICAL bug to avoid:** Any `\color{X}` for decorative elements MUST be wrapped in braces `{\color{X}\rule{...}}` — an unbraced `\color{}` leaks and turns ALL subsequent text that color.
+- **Contrast rule:** Sidebar text is white/off-white only. Accent colour on the dark sidebar is reserved for thin rules and `\tiny\textbullet` dots — accent-coloured *text* on navy is unreadable.
 
 ---
 
-## Sidebar Layout
+## Sidebar Layout (top to bottom)
+1. Oval photo — TikZ ellipse clip, thin `azurebright` border, `../assets/photo.jpg` (skipped automatically if absent)
+2. Name (bold white) + cascaded title (bright azure, uppercase, `\scriptsize`)
+3. Contact — phone, email, LinkedIn, GitHub, city (`\sidecontact` rows, links in `sidelinkblue`)
+4. Optional differentiator section (e.g. "Current AI Research & Practice") — delete if unused
+5. **Skills** — ONE consolidated block of ~6 `\sideskill{Category}{items}` groups (Rule 7)
+6. Certifications (`\sidecertitem` rows)
+7. Languages (`\sidelangitem` rows)
+8. Industries (`\sidecertitem` rows)
 
-```
-┌─────────────────┬──────────────────────────────────────────┐
-│  [oval photo]   │  Professional Summary                    │
-│                 │  ───────────────────────────────────────  │
-│  Name           │  Education                               │
-│  Title          │  ───────────────────────────────────────  │
-│                 │  Experience                              │
-│  CONTACT        │                                          │
-│  ───────        │  Most Recent Role                        │
-│  phone          │  Company         Location                │
-│  email          │  • Bullet 1                              │
-│  linkedin       │  • Bullet 2                              │
-│  github         │                                          │
-│                 │  Second Role                             │
-│  SKILLS         │  Company         Location                │
-│  ───────        │  • Bullet 1                              │
-│  Category       │                                          │
-│  • Skill        │  ...continued...                         │
-│  • Skill        │                                          │
-│                 │  Achievements                            │
-│  CERTIFICATIONS │  ───────────────────────────────────────  │
-│  ───────────── │  • Item                                  │
-│  • Cert         │  • Item                                  │
-│                 │                                          │
-│  LANGUAGES      │                                          │
-│  ───────────── │                                          │
-│  English Native │                                          │
-└─────────────────┴──────────────────────────────────────────┘
-```
+**Orphan control:** each `\sideskill` group is an unbreakable minipage — the category label can never be stranded at a page bottom. `\sidesection` headings end lines with `\\*`.
+
+---
+
+## Company Logos (optional)
+- Experience, education, and achievement entries reserve an **11mm logo column** left of the text (`\logocol`), with a 3pt gap (`\logogap`).
+- Files: `assets/logo_<name>.png` (or `.jpg`) — e.g. `logo_company1.png`. Experience/education logos render 11mm tall; achievement icons 6mm.
+- Missing logo files degrade to blank reserved space — text alignment never shifts, compilation never breaks.
+- Logos are excluded from git along with all other images in `assets/`.
 
 ---
 
 ## Spacing
-
-- **Page margins:** top 0.55in, bottom 0.55in, left 0.50in, right 0.60in
-- **Between role blocks:** `\vspace{8pt}`
-- **Bullet list:** `itemsep=2.5pt`, `parsep=0pt`, `topsep=4pt`
-- **Between education entries:** `\vspace{6pt}`
-
----
-
-## Sidebar Width Math
-
-The eso-pic background must cover exactly the sidebar column without bleeding into the main column or leaving a gap:
-
-```
-left_margin (0.50in = 12.7mm)
-+ sidebar_col (0.295 × (textwidth − columnsep) = 0.295 × 178.4mm ≈ 52.6mm)
-+ half_sep (14pt / 2 ≈ 2.5mm)
-= ~67.8mm → 67.8 / 210mm = 0.323 → round up to 0.327\paperwidth
-```
-
-**Use `0.327\paperwidth`** — do not change this unless the column ratio or margins change.
+- **Margins:** top 0.55in, bottom 0.55in, left 0.50in, right 0.60in
+- **Main sections:** `\mainsection` = 9pt above, 5pt below the rule
+- **Between role blocks:** `\vspace{6pt}`
+- **Bullet list:** itemsep=2pt, parsep=0pt, topsep=3pt
+- **Sidebar skill groups:** 6.5pt between `\sideskill` minipages
+- **Education entries:** 6pt between
 
 ---
 
-## Key Macros
+## Page Layout (2 pages — fill both)
+**Page 1:**
+- Sidebar: photo → name/title → contact → (optional differentiator) → Skills (start)
+- Main: Professional Summary (3 sentences, 4–5 lines) → Education (2 entries) → Experience (most recent role + start of second)
 
-```latex
-%% Sidebar section header
-\newcommand{\sidesection}[1]{%
-  \vspace{8pt}%
-  {\color{white}\footnotesize\bfseries\MakeUppercase{#1}}\\[-2pt]%
-  {\color{crimson}\rule{\linewidth}{0.35pt}}\\[4pt]%
-}
+**Page 2:**
+- Sidebar: Skills (rest) → Certifications → Languages → Industries
+- Main: Experience continued → Selected Projects (5–6 `\projectentry` rows) → Achievements & Recognition
 
-%% Sidebar skill category label
-\newcommand{\sideskillcat}[1]{%
-  \vspace{5pt}%
-  {\color{white}\footnotesize\bfseries #1}\\[2pt]%
-}
-
-%% Sidebar skill item
-\newcommand{\sideskillitem}[1]{%
-  \hspace{5pt}{\color{crimson}\tiny\textbullet}\enspace{\color{sidesubtle}\footnotesize #1}\\[2.5pt]%
-}
-
-%% Main column section heading (paracol-safe — do NOT use \section)
-\newcommand{\mainsection}[1]{%
-  \vspace{10pt}%
-  \noindent{\normalsize\bfseries\color{crimson}\MakeUppercase{#1}}%
-  \vspace{-5pt}\par\noindent%
-  {\color{crimson}\hrule height 0.5pt}%
-  \vspace{5pt}%
-}
-
-%% Entry title: role line 1, company+dates line 2
-\newcommand{\entrytitle}[4]{%
-  \noindent
-  \begin{tabularx}{\linewidth}{@{}X r@{}}
-    \textbf{#1} & \textcolor{medgray}{\small #4}\\[1pt]
-    \textcolor{medgray}{\small\itshape #2} & \textcolor{medgray}{\small #3}
-  \end{tabularx}%
-  \nopagebreak[4]%
-}
-```
-
----
-
-## Page Flow
-
-- NO forced `\newpage` mid-experience — let LaTeX flow naturally with paracol
-- `\interlinepenalty=10000` — no bullet splits across pages
+**Page break behaviour:**
+- NO forced `\newpage` mid-experience — let LaTeX flow naturally
+- `\interlinepenalty=10000` — no bullet splits across pages; whole bullet moves to next page
 - `\widowpenalty=10000`, `\clubpenalty=10000` — no orphan lines
-- `\nopagebreak[4]` after every `\entrytitle` — role header never stranded without first bullet
+- `\nopagebreak[4]` after every `\explentry` — role header never stranded without its first bullet
+- Page 2 must reach the bottom margin — add real bullets from `brain/person.md` if it trails off (Rule 1)
 
 ---
 
-## Bullet Points
-
-```latex
-\setlist[itemize]{
-  leftmargin = 1.2em,
-  itemsep    = 2.5pt,
-  parsep     = 0pt,
-  topsep     = 4pt,
-  label      = {\textcolor{crimson}{\small\textbullet}},
-}
-```
-
-Crimson bullet dots only — not crimson text.
+## Skimmability — Bold Keywords
+**Bold ALL key technical terms from the JD** in the resume body using `\textbf{}`:
+- Tool names the JD uses (in the sidebar skills and, for deeply technical roles, inline)
+- Key phrases the JD repeats: "end-to-end delivery", "agile delivery", "CI/CD", etc.
+- The biggest impact numbers can also be bolded
+- Do NOT over-bold — only JD-matching terms and the biggest metrics
 
 ---
 
-## Cover Letter Style
-
-**Visual branding:**
-- Same Helvetica font, same crimson accent, same link color as the resume
-- Letterhead: name (18pt bold) + crimson subtitle + 2-line contact top-right (no photo)
-- Thin light-grey rule beneath letterhead (ALWAYS in braces to prevent color leak)
-- `\parskip{9pt}` for natural paragraph rhythm; no `\parindent`
-
-**Letterhead structure:**
-```latex
-\begin{tabularx}{\linewidth}{@{}X r@{}}
-  {\fontsize{18}{22}\selectfont\bfseries Name} &
-  \begin{tabular}[t]{@{}r@{}}
-    {\footnotesize phone | email}\\[-1pt]
-    {\footnotesize linkedin}
-  \end{tabular}\\[-2pt]
-  {\small\bfseries\color{crimson} Title} &
-  {\footnotesize Location}
-\end{tabularx}
-```
-
-Use `\begin{tabular}[t]{@{}r@{}}` for the multi-line right cell — do NOT use `\\` inside a `{...}` group, it causes brace mismatch errors.
+## Certifications (what to show)
+Show ONLY the certifications listed in `brain/person.md`. Never add a certification that is not in the profile — certifications are credentials, and Rules 12/19 hard-block invented credentials.
 
 ---
 
 ## Compilation
+- Run: `python compile.py --no-open` from the project root
+- Compiler: `pdflatex` (MiKTeX on Windows, TeX Live / MacTeX on Mac/Linux)
+- Output: `outputs/resume_latest.pdf` + `outputs/coverletter_latest.pdf` + friendly-named archives
+- Windows, if PATH not refreshed: `$env:PATH = [System.Environment]::GetEnvironmentVariable("PATH","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("PATH","User")`
 
-```bash
-python compile.py            # compile + open PDFs
-python compile.py --no-open  # compile only
-```
+---
 
-Compiler: `pdflatex` via MiKTeX (Windows) or TeX Live (Mac/Linux).
+## Cover Letter Style
+The cover letter is a separate 1-page document, compiled from `outputs/coverletter_latest.tex`.
 
-If pdflatex not found on Windows:
-```powershell
-$env:PATH = [System.Environment]::GetEnvironmentVariable("PATH","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("PATH","User")
-```
+**Visual branding:**
+- Same Helvetica font, same deep azure accent, same link colour as the resume
+- Letterhead: name (18pt bold) + azure subtitle + 2-line contact top-right (no photo)
+- Thin light-grey rule beneath letterhead (ALWAYS in braces to prevent color leak)
+- `\parskip{9pt}` for natural paragraph rhythm; no `\parindent`
+
+**LaTeX structure gotchas:**
+- Multi-line right cell in letterhead tabularx: use `\begin{tabular}[t]{@{}r@{}}` nested inside the cell — do NOT use `\\` inside a `{...}` group in a tabular
+- After a `\\` line break, never start the next line with a literal `[` — LaTeX parses it as an optional argument. Use `\newline` instead.
+
+**Content philosophy:**
+- Write in first person (unlike the resume)
+- Complement the resume — never duplicate bullet points
+- Lead with genuine understanding of what makes the specific role difficult
+- One concrete story per letter — the judgment call or delivery moment most relevant to the JD
+- **Never name a gap.** Never write "I haven't worked in X." Find the structural parallel in real experience and state it as direct relevance — confidently, with evidence
+- The reader should finish the letter thinking: *"This is the person we need to call."*
+- Warm close: availability + location + open invitation, ≤2 sentences
+
+**Archive filename pattern:** `FirstName_LastName_CoverLetter_{Role}_{Company}_{YYYY-MM-DD}.pdf`

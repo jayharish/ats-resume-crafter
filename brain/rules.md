@@ -19,7 +19,7 @@
 - Write the COMPLETE .tex file to `outputs/resume_latest.tex`.
 - Apply all rules: structure (Rule 1), summary (Rule 6), bullets (Rules 3+4+5), photo (Rule 10), skills (Rule 7), achievements (Rule 11), no-gaps (Rule 15).
 - Bold ALL JD keywords throughout the body.
-- **After writing, run ATS audit (Rule 13 Steps B+C)** — verify every extracted keyword is present; fill gaps before compiling. Do not skip this.
+- **After writing, run ATS audit (Rule 13 Steps B+C)** — verify every extracted keyword is present; fill gaps before compiling. Do not skip this. The resume is not ready until the ATS audit passes.
 
 ### Step 3 — Generate coverletter_latest.tex
 - Write the COMPLETE cover letter .tex to `outputs/coverletter_latest.tex`.
@@ -62,12 +62,12 @@ State clearly:
 
 ## RULE 1 — Structure & Section Order
 
-- **Always 2 pages** — a rich 10+ year career fits better on 2 pages. 1 page undersells experience.
-- **Sidebar (left column):** photo + name + title + contact + skills (categorised) + certifications + languages
-- **Main column (right), page 1 section order:** Summary → Education → Experience (most recent roles)
-- **Main column, page 2 section order:** Experience (continued) → Achievements → (optional extra sections)
-- **Education goes AFTER the summary** — never at the end
-- No "Objective" section — use "Professional Summary"
+- **Always 2 pages — and FILL both fully.** A rich career undersold on 1 page looks thin; a half-empty page 2 looks worse. Page 2 must reach the bottom margin. If it trails off blank, add more real bullets from `brain/person.md` before trimming anything; if content spills to a 3rd page, trim the weakest older-role bullets first. Never pad with fluff — only real, metric-bearing bullets.
+- **Sidebar (left column):** photo + name + cascaded title + contact + **Technical Skills** (ONE consolidated categorised block — Rule 7) + certifications + languages + industries. An optional differentiator section (e.g. "Current AI Research & Practice", "Publications") can sit between Contact and Skills.
+- **Main column (right):** Summary → Education → Experience → **Selected Projects** → Achievements & Recognition.
+- **Selected Projects is a standard section** — 5–6 `\projectentry` rows after Experience, spanning the whole career (Rule 18).
+- **Education goes AFTER the summary** — never at the end.
+- No "Objective" section — use "Professional Summary".
 
 ---
 
@@ -79,10 +79,18 @@ Every user has a signature story — their single most powerful differentiator (
 
 ---
 
-## RULE 3 — Bullet Point Formula
+## RULE 3 — Bullet Point Formula (Impact-First)
 
 Every bullet MUST follow this formula:  
-**[Strong Action Verb] + [What] + [How/With What] + [Result/Impact]**
+**[Strong Action Verb] + [Impact/Result + metric] + [What + scale] — minimal or no tooling**
+
+**The bullet leads with the OUTCOME, not the method.** Open on the result and its number (revenue, cost, %, users, downtime), then name what was built and at what scale. The "how / with what tool" is NOT in the bullet.
+
+### The jargon rule: tool names live in Skills, not bullets.
+- **Technical jargon — tool / framework / library / platform names — does NOT belong in experience bullets.** It all lives in the sidebar **Technical Skills** block (Rule 7).
+- **Keep** product/platform PROPER names that are achievements in themselves (a flagship platform name, a product that won recognition) — these are impact, not jargon.
+- A bullet should read as a business outcome a non-technical executive understands. If a recruiter wants the stack, they read the Skills block.
+- Exception: when a JD is deeply technical (AI/ML Engineer, Data Engineer — Rule 5) and the role demands tool tokens inline for ATS, you may name the 1–2 most JD-critical tools per bullet. Default is jargon-free.
 
 Strong action verbs to use: Architected, Engineered, Delivered, Designed, Formulated, Owned, Spearheaded, Piloted, Directed, Led, Established, Scaled, Defined, Optimised, Drove, Built, Launched
 
@@ -136,7 +144,7 @@ If a metric isn't in `brain/person.md`, do not invent one. Use descriptive frami
 
 **Step 3 — Apply standard tailoring:**
 - Lead Summary with that role's persona
-- Promote matching skills to the TOP of the Skills section in the sidebar
+- Promote the matching **Technical Skills category** to the top of the sidebar block
 - **Bold ALL key technical keywords from the JD** throughout the resume body
 - Mirror exact JD terminology verbatim
 
@@ -153,19 +161,24 @@ If a metric isn't in `brain/person.md`, do not invent one. Use descriptive frami
 
 ---
 
-## RULE 7 — Skills Section (Sidebar)
+## RULE 7 — Skills: ONE Consolidated Technical Skills Block in the Sidebar
 
-Group skills by category in the sidebar. Always reorder categories to put JD-matching skills first.
+> Supersedes any per-role skills lines. There is ONE skills home, not lines scattered under each role.
 
-Suggested groupings (adapt to what the user actually has):
-- Primary technical domain (AI / BI / Engineering / whatever matches the JD)
-- Cloud & DevOps
-- Programming languages
-- Governance & Compliance
-- Product & Delivery methodology
-- Spoken languages
+**All tool/framework/language jargon lives in a single categorised Technical Skills block in the LEFT SIDEBAR.** Experience bullets stay jargon-free (Rule 3). This is what lets the bullets read as pure impact while the recruiter/ATS still finds every keyword in one dense, scannable place.
 
-Bold the tools that appear in the JD within the skill lists. Only list skills that are confirmed real (from `brain/person.md`).
+### How to build the sidebar Technical Skills block:
+- Use the `\sideskill{Category}{comma-separated items}` macro — bold white category label, off-white item list under it (see Rule 18 for the macro).
+- Standard 6 categories, adapted to the user's actual profile (`brain/person.md` master list). Examples:
+  1. Primary differentiator domain (AI & Agentic AI, Solutions Consulting, whatever the user leads with)
+  2. Cloud & Data Platforms
+  3. BI & Visualisation
+  4. Languages & Automation
+  5. Governance & Security
+  6. Product & Delivery
+- **Per JD:** promote the matching category to the top and front-load the JD-named tools inside each line. Add fast-learnable tools per Rule 19. Only list skills that are real (`brain/person.md`) or pass the Rule 19 test.
+- The sidebar carries NO separate "Core Competencies" list — Technical Skills replaces it. Certifications, Languages, Industries stay in the sidebar below it.
+- There is NO per-role skills line and NO last-page skills block.
 
 ---
 
@@ -179,22 +192,27 @@ The title line under the name in the sidebar changes per role:
 - Product owner/management role → "Technical Product Owner & [Domain] Leader"
 - Director/VP level → elevate the title accordingly
 
+Usually this simply matches the cascaded title of the most recent role (Rule 17).
+
 ---
 
 ## RULE 9 — LaTeX Technical Rules
 
 - The resume is a COMPLETE .tex file (preamble + body + `\end{document}`) written to `outputs/resume_latest.tex`
 - Use Helvetica font: `\usepackage[scaled=0.92]{helvet}` + `\renewcommand{\familydefault}{\sfdefault}`
-- Body text color MUST be pure black: `\definecolor{darkgray}{RGB}{0,0,0}` — NEVER grey
+- Body text color MUST be near-black — NEVER grey
 - **CRITICAL**: Any `\color{...}` for decorative elements (rules, separators) MUST be wrapped in braces `{\color{X}\rule{...}}` to prevent color leaking to body text
 - **CRITICAL**: Add `\raggedright` as the FIRST command inside `\begin{document}` — always, no exceptions. Full justification causes uneven word spacing ("wobbly lines") when combined with bold keywords and narrow column widths.
 - Use `--` for em-dashes in LaTeX (not —)
 - Escape special chars: & → `\&`, % → `\%`, $ → `\$`, # → `\#`
 - Every `\begin{...}` must have a matching `\end{...}`
 - Add `\interlinepenalty=10000`, `\widowpenalty=10000`, `\clubpenalty=10000` to prevent bullets and paragraphs splitting across pages
-- Add `\nopagebreak[4]` after every `\entrytitle` macro to keep role headers with their first bullet
+- Add `\nopagebreak[4]` after every experience-entry header to keep role headers with their first bullet
 - **`\mainsection` not `\section`** — `titlesec` is incompatible with `paracol`. Use the custom `\mainsection` macro (see Rule 18) for all main column section headings.
-- **Sidebar text:** Use white/off-white only. Crimson ONLY for thin decorative rules and tiny bullet dots. Never crimson on dark background (contrast ratio ~1.5:1 — unreadable).
+- **Sidebar text:** white/off-white only. The accent colour is ONLY for thin decorative rules and tiny bullet dots — never for text on the dark background (contrast too low to read).
+- **Sidebar headings never orphan:** a `\sideskill` category label must never sit at the bottom of one page with its item list on the next. `\\*` no-break penalties DO NOT work here — paracol ignores them when splitting the sidebar column. The working fix: `\sideskill` wraps the whole group (label + list) in an unbreakable `\begin{minipage}{\linewidth}...\end{minipage}` followed by `\par\vspace{6.5pt}` — the group either fits on the page or moves whole. `\sidesection` headings use `\\*` (lower risk, monitor visually).
+- **Header title cells never justify-stretch:** the title/degree X-columns in `\explentry`/`\edulentry` MUST be `>{\raggedright\arraybackslash}X`. A wrapped title breaks ragged-right, never with wide justified gaps. Keep degree lines short enough to wrap cleanly — drop parenthetical annotations rather than let a line stretch.
+- **Logos and photo degrade gracefully:** `\complogobig`/`\complogosm`/`\ovalphoto` use `\IfFileExists` — a missing image file must never break compilation or shift text alignment.
 
 ---
 
@@ -202,14 +220,14 @@ The title line under the name in the sidebar changes per role:
 
 - Include an oval photo in the sidebar (top of left column, first page)
 - Photo path: `../assets/photo.jpg`
-- Clip to ellipse using TikZ, thin `sidesubtle` border
-- If no photo file exists, remove the `\ovalphoto` call and adjust sidebar spacing
+- Clip to ellipse using TikZ, thin bright-accent border
+- If no photo file exists, the `\ovalphoto` macro skips it automatically — no edits needed
 
 ---
 
 ## RULE 11 — Achievements Section
 
-Always include an Achievements & Recognition section. Use single-line bulleted `\itemize`.
+Always include an Achievements & Recognition section at the end of the main column. Use `\achieveentry` rows (small logo/icon left, one-line text right — Rule 18).
 
 Pull achievements from `brain/person.md` only. Common types to include:
 - Awards, recognitions, competitive honours
@@ -224,7 +242,7 @@ Pull achievements from `brain/person.md` only. Common types to include:
 ## RULE 12 — What NEVER to Include
 
 - No achievements, credentials, or metrics NOT listed in `brain/person.md` — if it's not there, it does not go in the resume, ever
-- No fabricated credentials of any kind (certifications, awards, publications, conference talks)
+- No fabricated credentials of any kind (certifications, degrees, awards, publications, conference talks, advisory seats)
 - No "References available upon request"
 - No personal pronouns (I, my, we) in the resume body
 - No current salary
@@ -253,17 +271,18 @@ Pull achievements from `brain/person.md` only. Common types to include:
 - For each ❌ missing keyword: find matching real experience in `brain/person.md`
 - Write a sentence, clause, or skill item that includes the keyword naturally
 - **Never fabricate** — only include a keyword where real evidence exists
-- Priority placement: experience bullets first (highest ATS weight), skills section second
+- Priority placement: experience bullets first (highest ATS weight), sidebar Technical Skills second
 - High-frequency JD keywords (used 5+ times) MUST appear in both experience AND skills
 
 ### Step D — Final ATS checks:
 - Section headings: EXPERIENCE, EDUCATION, SKILLS, CERTIFICATIONS (standard ATS-readable)
-- No critical content inside images or graphics (photo is decorative only)
+- No critical content inside images or graphics (photo and logos are decorative only)
 - Bold all matched JD keywords throughout the body
 - Do a final mental "ctrl+F" for the 10 most important JD terms — each must appear
 
 ### Step E — Report to user:
-State the ATS match % estimate and call probability % with the final output.
+State the ATS match % estimate and call probability % with the final output.  
+The ATS score must be 100% before the resume is considered complete. If a mandatory JD keyword has no real evidence in `brain/person.md`, use the closest structural parallel and note it — never fabricate, but always find a connection.
 
 ---
 
@@ -282,7 +301,7 @@ The correct move when there is an apparent gap:
 - Example: if "airline domain" isn't in the background → do NOT write "I haven't worked in airlines." Write about the conditions that make the relevant experience directly applicable.
 
 ### Structure (exactly 1 page)
-1. **Letterhead** — Name (large), crimson subtitle, phone | email | LinkedIn in top-right (same branding as resume, NO photo)
+1. **Letterhead** — Name (large), accent-colour subtitle, phone | email | LinkedIn in top-right (same branding as resume, NO photo)
 2. **Date + Subject line** — `Re: {Role Title}` and `{Company}, {Location}`
 3. **3–4 paragraphs:**
    - **Hook** — why THIS specific role is compelling; show real understanding of what makes it difficult
@@ -306,6 +325,7 @@ The correct move when there is an apparent gap:
 - Use `\begin{tabular}[t]{@{}r@{}}` for multi-line right header cell
 - Letterhead separator: `{\color{lightgray}\rule{\linewidth}{0.4pt}}` — braces mandatory
 - `\pagestyle{empty}`, `\setlength{\parindent}{0pt}`, `\setlength{\parskip}{9pt}`
+- After a `\\` line break, never start the next line with a literal `[` — LaTeX reads it as an optional argument. Use `\newline` or brace the bracket.
 
 ---
 
@@ -319,7 +339,7 @@ If the answer is anything less than yes, rewrite it.
 ### For the resume:
 - **Never signal a gap, a limitation, or an absence** — not in summary language, not in bullet framing, not in the skills section
 - If a JD calls for a specific domain not in the candidate's history: surface the structural parallel from real experience and state it as direct relevance — confidently, with evidence
-- If a JD calls for a specific tool not used verbatim: find the closest equivalent and name it prominently. The recruiter sees capability, not a gap.
+- If a JD calls for a specific tool not used verbatim: find the closest equivalent and name it prominently (or apply Rule 19 if it qualifies). The recruiter sees capability, not a gap.
 - **"Ready to..."** is future-tense hedging — cut it. State it in present tense as fact.
 - Every bullet must position the candidate as the person accountable and in charge — not a contributor, not a participant
 
@@ -376,60 +396,66 @@ When generating a resume, copy the dates from `brain/person.md` exactly. Do not 
 
 ## RULE 18 — Visual Layout: Gold Standard (Locked)
 
-The sidebar layout is the locked standard. Every future resume uses this layout unless the user explicitly asks to change it.
+The sidebar layout is the locked standard: **deep navy sidebar + azure accents + optional company logos + a consolidated sidebar Technical Skills block + a Selected Projects section**. Every future resume uses this layout unless the user explicitly asks to change it. The template lives at `outputs/resume_latest.tex` and is regenerated (not redesigned) each run.
 
 ### Layout specs (do not deviate):
 
-- **Left column (sidebar):** Dark charcoal `RGB(28, 33, 43)`, 29.5% width — contains photo, name, title, contact, skills (categorised), certifications, languages
-- **Right column (main):** White background, 70.5% width — contains summary, education, experience, achievements
-- **Column separator:** 14pt (`\setlength{\columnsep}{14pt}`)
-- **Column ratio:** `\columnratio{0.295}`
+- **Left column (sidebar):** Deep navy `RGB(22, 36, 60)`, 29.5% width — photo, name, cascaded title, contact, optional differentiator section, **Technical Skills** (one categorised `\sideskill` block — ALL tool jargon, Rule 7), certifications, languages, industries
+- **Right column (main):** Soft off-white page background `RGB(248, 250, 252)`, 70.5% width — Summary → Education → Experience (impact-only bullets) → **Selected Projects** → Achievements & Recognition
+- **Accent palette:** primary azure `RGB(70, 128, 196)`; deep azure `RGB(40, 88, 148)` for main-column headers/rules/bullets; bright azure `RGB(120, 176, 240)` for sidebar rules/dots. (The palette is swappable as a set — keep the three-tier structure: primary / deep-on-light / bright-on-dark.)
+- **Company logos (optional):** each experience/education/achievement entry reserves an 11mm logo column on the left (`\explentry`, `\edulentry`, `\achieveentry`). Drop `logo_<name>.png` files into `assets/` to fill them; missing files degrade to blank space without shifting alignment. Logos stay out of git (`.gitignore`).
+- **Selected Projects:** a dedicated section after Experience. 5–6 `\projectentry{Name}{-- Type tag}{Impact line}` rows — bold project name + accent italic type tag (e.g. "-- AI / LLM Product", "-- Cloud Migration") + a single one-line impact sentence with the metric. Span the whole career, not just the last role. Pick types/projects that match the JD.
+- **Column separator:** 14pt (`\setlength{\columnsep}{14pt}`); **column ratio:** `\columnratio{0.295}`
 - **eso-pic sidebar background:** `0.327\paperwidth` width (covers left_margin + sidebar_col + half_sep)
 - **Font:** Helvetica scaled 0.92, 10pt base, `\small` (9pt) for all main column body text
 - **`\raggedright` is mandatory** — always the first command in `\begin{document}`
-- **Section headers (main):** `\mainsection` macro using `\hrule` — paracol-safe, crimson text + crimson rule
-- **Section headers (sidebar):** White bold text + crimson rule — use `\sidesection` macro
-- **Sidebar text:** All text is white or off-white (`sidesubtle`). Crimson is ONLY for thin decorative rules and `\tiny\textbullet` dots. Never crimson text on dark background (illegible).
-- **Entry titles:** Role on line 1 (bold left, location right), Company + dates on line 2 (italic left, dates right) — use `\entrytitle` macro
-- **Spacing:** 8pt between role blocks, 5pt `topsep`, 2.5pt `itemsep`
-- **Achievements:** Single-line bulleted list using `\itemize`, not tabularx
-- **Education:** Dates only — no GPA, no honours unless the user explicitly includes them in `brain/person.md`
+- **Section headers (main):** `\mainsection` macro using `\hrule` — paracol-safe, deep azure text + rule
+- **Section headers (sidebar):** White bold text + bright azure rule — `\sidesection` macro with `\\*` no-break line ends
+- **Sidebar text:** All text is white or off-white. Accent colour ONLY for thin rules and `\tiny\textbullet` dots.
+- **Entry titles:** Role on line 1 (bold left, dates right), Company on line 2 (italic left, location right) — ragged-right X columns (Rule 9)
+- **Achievements:** `\achieveentry` rows — small centred icon left, single-line text right, no bullets
+- **Education:** dates only — no GPA, no honours unless the user explicitly includes them in `brain/person.md`
 
-### Key LaTeX structure:
-
+### Canonical macros (in the template preamble — reuse, don't reinvent):
 ```latex
-\columnratio{0.295}
-\setlength{\columnsep}{14pt}
-
-\AddToShipoutPictureBG{%
-  \AtPageLowerLeft{%
-    {\color{sidecolor}\rule{0.327\paperwidth}{\paperheight}}%
-  }%
+%% Sidebar skill group — unbreakable minipage so the label never orphans (Rule 9)
+\newcommand{\sideskill}[2]{%
+  \par\noindent\begin{minipage}{\linewidth}\raggedright%
+  {\color{white}\footnotesize\bfseries #1}\\[1.5pt]%
+  {\color{sidesubtle}\footnotesize #2}%
+  \end{minipage}\par\vspace{6.5pt}%
 }
-
-\newcommand{\mainsection}[1]{%
-  \vspace{10pt}%
-  \noindent{\normalsize\bfseries\color{crimson}\MakeUppercase{#1}}%
-  \vspace{-5pt}\par\noindent%
-  {\color{crimson}\hrule height 0.5pt}%
-  \vspace{5pt}%
+%% Selected-project row — Name (bold) + accent italic type tag, then impact line
+\newcommand{\projectentry}[3]{%
+  \nopagebreak\noindent{\small\textbf{#1}\enspace{\color{azuredeep}\footnotesize\itshape#2}}\par%
+  {\small #3}\par\vspace{4.5pt}%
 }
-
-\begin{document}
-\raggedright
-\begin{paracol}{2}
-  %% LEFT: sidebar content
-\switchcolumn
-{\color{darkgray}\small
-\setlength{\leftskip}{6pt}
-  %% RIGHT: main column content
-}
-\end{paracol}
-\end{document}
 ```
+Usage:  
+`\sideskill{AI \& Agentic AI}{LangGraph, LangChain, RAG, Azure OpenAI, NLP}`  
+`\projectentry{Clinical AI Assistant}{-- AI / LLM Product}{40\% deflection of unnecessary visits, \$2M saved, 92\% accuracy in production.}`
 
 ### What to update per application:
 - Sidebar title (under name) → matches the cascaded title for the most recent role
+- Sidebar **Technical Skills** → promote the JD-matching category to the top; front-load JD-named tools inside each `\sideskill` line; add fast-learnable tools (Rule 19)
 - Summary → rewritten per role type
-- Experience bullets → freshly synthesised per JD
-- Skills order in sidebar → promote JD-matching categories to top
+- Experience bullets → freshly synthesised per JD, impact-first and jargon-free (Rule 3)
+- **Selected Projects** → pick the 5–6 projects + type tags that best match the JD; lead with the most relevant type
+
+---
+
+## RULE 19 — Fast-Learnable Tools: Add Liberally
+
+When a JD lists a *tool, language, or library* the candidate hasn't used verbatim but is **fast to pick up — especially with AI assistance — and adjacent to skills they already have, ADD IT to the sidebar Technical Skills block.** Do not flag it as a gap, do not water it down to a "closest equivalent." List the tool by its actual name.
+
+**Rationale:** The ATS and first-pass recruiter screen on exact tool tokens; a genuinely learnable adjacent tool is a real capability, not a false credential. The interview is where depth gets tested — and the candidate should only claim what they could credibly demonstrate after a short ramp-up.
+
+### The test — add it only if ALL of these are true:
+1. It is a **tool / language / library / framework / platform** (NOT a degree, cert, award, employer, title, or quantified metric).
+2. It is **adjacent** to something real in `brain/person.md` (e.g. R ↔ Python/stats; Snowflake ↔ Databricks/Synapse; Looker/Qlik ↔ Power BI/Tableau; Airflow ↔ ADF; Terraform ↔ PowerShell/CI-CD).
+3. It is **genuinely fast to learn / AI-assistable** — the candidate could be productive in days, not years.
+
+When all three hold: place it by name in the relevant `\sideskill` line, and optionally in the summary tool list for ATS weight. Bold it in the body if the JD uses it.
+
+### The line this does NOT cross — Rule 12 still wins for these:
+Never invent **credentials**: degrees, certifications, named awards/achievements, employers, job dates, published work, conference talks, advisory-board seats, or fabricated metrics. Those remain hard-blocked. Rule 19 covers *learnable tools only* — the boundary is "could the candidate credibly demonstrate this in a working session?" If yes and it's a tool, add it. If it's a credential someone could verify and they don't hold it, never.
